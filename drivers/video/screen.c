@@ -1,5 +1,5 @@
 #include "screen.h"
-#include "ports.c"
+#include "ports.h"
 #include "../../kernel/util.h"
 
 /* Declaration of private functions */
