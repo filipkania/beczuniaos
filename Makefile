@@ -4,11 +4,13 @@ HEADERS = $(wildcard kernel/*.h drivers/*.h)
 OBJ = ${C_SOURCES:.c=.o}
 
 # Change this if your cross-compiler is somewhere else
-CC = /usr/local/Cellar/x86_64-elf-gcc/10.2.0/bin/x86_64-elf-gcc
+CC = /usr/local/Cellar/i386-elf-gcc/9.2.0/bin/i386-elf-gcc
+LD = /usr/local/opt/i386-elf-binutils/bin/i386-elf-ld
 # GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 # -g: Use debugging symbols in gcc
 CFLAGS = -g
 
+all: clean run
 # First rule is run by default
 os-image.bin: boot/bootsector.bin kernel.bin
 	cat $^ > os-image.bin
@@ -16,14 +18,14 @@ os-image.bin: boot/bootsector.bin kernel.bin
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
 # to 'strip' them manually on this case
 kernel.bin: boot/kernel_entry.o ${OBJ}
-	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	${LD} -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Used for debugging purposes
 kernel.elf: boot/kernel_entry.o ${OBJ}
-	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
+	${LD} -o $@ -Ttext 0x1000 $^ 
 
 run: os-image.bin
-	qemu-system-i386 -fda os-image.bin
+	qemu-system-i386 os-image.bin
 
 # Open the connection to qemu and load our kernel-object file with symbols
 # debug: os-image.bin kernel.elf
