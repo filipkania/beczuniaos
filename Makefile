@@ -1,5 +1,5 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h)
+C_SOURCES = $(wildcard kernel/*.c kernel/**/*.c drivers/*.c drivers/**/*.c)
+HEADERS = $(wildcard kernel/*.h kernel/**/*.c drivers/*.h drivers/**/*.h)
 OBJ = ${C_SOURCES:.c=.o}
 
 CC = i386-elf-gcc
@@ -11,7 +11,7 @@ CFLAGS = -g
 all: clean run
 
 os-image.bin: boot/bootsector.bin kernel.bin
-	cat $^ > os-image.bin
+	cat $^ > beczuniaos-latest-build.bin
 
 kernel.bin: boot/kernel_entry.o ${OBJ}
 	${LD} -o $@ -Ttext 0x1000 $^ --oformat binary
@@ -20,7 +20,7 @@ kernel.elf: boot/kernel_entry.o ${OBJ}
 	${LD} -o $@ -Ttext 0x1000 $^ 
 
 run: os-image.bin
-	qemu-system-i386 -fda os-image.bin
+	qemu-system-i386 -fda beczuniaos-latest-build.bin
 
 
 # debug: os-image.bin kernel.elf
@@ -37,5 +37,5 @@ run: os-image.bin
 	nasm $< -f bin -o $@
 
 clean:
-	rm -rf *.bin *.dis *.o os-image.bin *.elf
+	rm -rf *.bin *.dis *.o beczuniaos-latest-build.bin *.elf
 	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o
