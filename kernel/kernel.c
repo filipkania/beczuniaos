@@ -1,7 +1,12 @@
 #include "../drivers/video/screen.h"
+#include "./util.h"
 
 void main() {
     clear_screen();
-    sprint_change_color(RED_ON_WHITE);
-    sprint("qwertyuiop");
+
+    for(int i = 0; i < 50; i++) {
+        char a[255];
+        int_to_ascii(i, a);
+        kprint("test\n");
+    }
 }

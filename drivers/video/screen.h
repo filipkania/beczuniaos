@@ -10,6 +10,5 @@
 
 /* Public kernel API */
 void clear_screen();
-void sprint_at(char *message, int col, int row);
-void sprint(char *message);
-void sprint_change_color(int color);
+void kprint_at(char *message, int col, int row);
+void kprint(char *message);

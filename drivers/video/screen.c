@@ -1,5 +1,6 @@
-#include "./screen.h"
-#include "ports.h"
+#include "screen.h"
+#include "ports.c"
+#include "../../kernel/util.h"
 
 /* Declaration of private functions */
 int get_cursor_offset();
@@ -9,13 +10,11 @@ int get_offset(int col, int row);
 int get_offset_row(int offset);
 int get_offset_col(int offset);
 
-int default_color = WHITE_ON_BLACK;
-
 /**********************************************************
  * Public Kernel API functions                            *
  **********************************************************/
 
-void sprint_at(char *message, int col, int row) {
+void kprint_at(char *message, int col, int row) {
     int offset;
     if (col >= 0 && row >= 0)
         offset = get_offset(col, row);
@@ -27,19 +26,16 @@ void sprint_at(char *message, int col, int row) {
 
     int i = 0;
     while (message[i] != 0) {
-        offset = print_char(message[i++], col, row, default_color);
+        offset = print_char(message[i++], col, row, WHITE_ON_BLACK);
         row = get_offset_row(offset);
         col = get_offset_col(offset);
     }
 }
 
-void sprint(char *message) {
-    sprint_at(message, -1, -1);
+void kprint(char *message) {
+    kprint_at(message, -1, -1);
 }
 
-void sprint_change_color(int color) { 
-    default_color = color;
-}
 
 /**********************************************************
  * Private kernel functions                               *
@@ -47,7 +43,7 @@ void sprint_change_color(int color) {
 
 int print_char(char c, int col, int row, char attr) {
     unsigned char *vidmem = (unsigned char*) VIDEO_ADDRESS;
-    if (!attr) attr = default_color;
+    if (!attr) attr = WHITE_ON_BLACK;
 
     if (col >= MAX_COLS || row >= MAX_ROWS) {
         vidmem[2*(MAX_COLS)*(MAX_ROWS)-2] = 'E';
@@ -67,6 +63,20 @@ int print_char(char c, int col, int row, char attr) {
         vidmem[offset+1] = attr;
         offset += 2;
     }
+
+    if (offset >= MAX_ROWS * MAX_COLS * 2) {
+        int i;
+        for (i = 1; i < MAX_ROWS; i++) 
+            memory_copy(get_offset(0, i) + VIDEO_ADDRESS,
+                        get_offset(0, i-1) + VIDEO_ADDRESS,
+                        MAX_COLS * 2);
+
+        char *last_line = get_offset(0, MAX_ROWS-1) + VIDEO_ADDRESS;
+        for (i = 0; i < MAX_COLS * 2; i++) last_line[i] = 0;
+
+        offset -= 2 * MAX_COLS;
+    }
+
     set_cursor_offset(offset);
     return offset;
 }
@@ -94,7 +104,7 @@ void clear_screen() {
 
     for (i = 0; i < screen_size; i++) {
         screen[i*2] = ' ';
-        screen[i*2+1] = default_color;
+        screen[i*2+1] = WHITE_ON_BLACK;
     }
     set_cursor_offset(get_offset(0, 0));
 }
