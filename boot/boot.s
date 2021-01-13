@@ -3,6 +3,7 @@ global loader
 MAGIC_NUMBER equ 0x1BADB002
 FLAGS equ 0x0 
 CHECKSUM equ -MAGIC_NUMBER 
+KERNEL_STACK_SIZE equ 4096  
 
 section .text:
 align 4 
@@ -11,6 +12,20 @@ align 4
     dd CHECKSUM 
 
 loader:
-    mov eax, 0xCAFEBABE
+    mov eax, 0xDEADBEEF
+    mov esp, kernel_stack + KERNEL_STACK_SIZE
+
+    extern main
+    
+    call main
+
+    jmp $ ; infinite loop if kernel will leave control to us (at least he shouldnt)
+
 .loop:
     jmp .loop
+
+
+section .bss:
+align 4
+kernel_stack:
+    resb KERNEL_STACK_SIZE

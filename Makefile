@@ -1,4 +1,5 @@
-OBJECTS := boot/boot.o
+FILES = $(patsubst %.c,%.o,$(wildcard **/*.c **/*.s))
+OBJECTS = $(FILES:.s=.o)
 
 CC = i386-elf-gcc
 LD = i386-elf-ld
@@ -18,10 +19,11 @@ build_dir:
 	mkdir -p build/tmp
 
 kernel.bin: $(OBJECTS)
+	echo $(OBJECTS)
 	$(LD) $(LDFLAGS) $(wildcard build/tmp/*.o) -o build/boot/kernel.bin
 
-%.c: %.c
-	$(CC) $(CFLAGS) $< -o build/tmp/$(notdir $@)
+%.o: %.c
+	$(CC) $(CCFLAGS) $< -o build/tmp/$(notdir $@)
 
 %.o: %.s
 	$(AS) $(ASFLAGS) $< -o build/tmp/$(notdir $@)
