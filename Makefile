@@ -1,7 +1,7 @@
-FILES = $(patsubst %.c,%.o,$(wildcard **/*.c **/*.s))
+FILES = $(patsubst %.cc,%.o,$(wildcard **/*.cc **/*.s))
 OBJECTS = $(FILES:.s=.o)
 
-CC = i386-elf-gcc
+CC = i386-elf-g++
 LD = i386-elf-ld
 AS = nasm
 QEMU = qemu-system-x86_64 -hda build/beczuniaos-latest-build.iso
@@ -20,9 +20,10 @@ build_dir:
 
 kernel.bin: $(OBJECTS)
 	echo $(OBJECTS)
+	echo $(wildcard build/tmp/*.o)
 	$(LD) $(LDFLAGS) $(wildcard build/tmp/*.o) -o build/boot/kernel.bin
 
-%.o: %.c
+%.o: %.cc
 	$(CC) $(CCFLAGS) $< -o build/tmp/$(notdir $@)
 
 %.o: %.s

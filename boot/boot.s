@@ -16,10 +16,9 @@ loader:
     mov esp, kernel_stack + KERNEL_STACK_SIZE
 
     extern main
-    
     call main
 
-    jmp $ ; infinite loop if kernel will leave control to us (at least he shouldnt)
+    jmp $
 
 .loop:
     jmp .loop
