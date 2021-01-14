@@ -1,30 +1,28 @@
-global loader
+MBALIGN  equ  1 << 0
+MEMINFO  equ  1 << 1
+FLAGS    equ  MBALIGN | MEMINFO
+MAGIC    equ  0x1BADB002
+CHECKSUM equ -(MAGIC + FLAGS)
 
-MAGIC_NUMBER equ 0x1BADB002
-FLAGS equ 0x0 
-CHECKSUM equ -MAGIC_NUMBER 
-KERNEL_STACK_SIZE equ 4096  
-
-section .text:
-align 4 
-    dd MAGIC_NUMBER 
-    dd FLAGS 
-    dd CHECKSUM 
-
-loader:
-    mov eax, 0xDEADBEEF
-    mov esp, kernel_stack + KERNEL_STACK_SIZE
-
-    extern main
-    call main
-
-    jmp $
-
-.loop:
-    jmp .loop
-
-
-section .bss:
+section .multiboot
 align 4
-kernel_stack:
-    resb KERNEL_STACK_SIZE
+	dd MAGIC
+	dd FLAGS
+	dd CHECKSUM
+
+section .bss
+align 16
+stack_bottom:
+resb 16384
+stack_top:
+ 
+section .text
+global _start:function (_start.end - _start)
+_start:
+	extern main
+	call main
+ 
+	cli
+.hang:	hlt
+	jmp .hang
+.end:

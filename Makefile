@@ -1,30 +1,31 @@
-FILES = $(patsubst %.cc,%.o,$(wildcard **/*.cc **/*.s))
+FILES = $(wildcard **/*.s)
 OBJECTS = $(FILES:.s=.o)
 
-CC = i386-elf-g++
+CC = i386-elf-gcc
 LD = i386-elf-ld
 AS = nasm
 QEMU = qemu-system-x86_64 -hda build/beczuniaos-latest-build.iso
 
-CCFLAGS = -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-         -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+CCFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -m32 -nostartfiles -nostdlib -I$(shell pwd)/kernel
 LDFLAGS = -T boot/linker.ld -melf_i386
 ASFLAGS = -f elf
 
 
-all: clean build_dir kernel.bin grub run_qemu
+all: clean build_dir compile $(OBJECTS) link check_multiboot grub run_qemu
 
 build_dir: 
+	echo $(FILES)
 	mkdir -p build/boot/grub && \
 	mkdir -p build/tmp
 
-kernel.bin: $(OBJECTS)
-	echo $(OBJECTS)
-	echo $(wildcard build/tmp/*.o)
+link:
 	$(LD) $(LDFLAGS) $(wildcard build/tmp/*.o) -o build/boot/kernel.bin
 
-%.o: %.cc
-	$(CC) $(CCFLAGS) $< -o build/tmp/$(notdir $@)
+check_multiboot:
+	grub-file --is-x86-multiboot build/boot/kernel.bin
+
+compile:
+	$(CC) $(CCFLAGS) $(shell find . -type f -name "*.cc") -o build/tmp/kernel.o
 
 %.o: %.s
 	$(AS) $(ASFLAGS) $< -o build/tmp/$(notdir $@)
