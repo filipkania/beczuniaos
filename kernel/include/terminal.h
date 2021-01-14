@@ -21,9 +21,9 @@ namespace Terminal {
         static const int WHITE = 15;
     };
 
-    uint8_t combine_colors(const int fg, const int bg);
+    uint8_t combineColors(const int fg, const int bg);
 
-    uint16_t vga_entry(unsigned char uc, uint8_t color);
+    uint16_t vgaEntry(unsigned char uc, uint8_t color);
 
     void initialize();
 

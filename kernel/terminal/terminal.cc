@@ -1,5 +1,5 @@
-#include "terminal.h"
-#include <string/string.h>
+#include <string.h>
+#include <terminal.h>
 
 struct VGA {
     static const int height = 25;
@@ -11,24 +11,24 @@ size_t terminal_column;
 uint8_t terminal_color = 0x0E;
 uint16_t* terminal_buffer;
 
-uint8_t Terminal::combine_colors(const int fg, const int bg) {
+uint8_t Terminal::combineColors(const int fg, const int bg) {
     return fg | bg << 4;
 }
 
-uint16_t Terminal::vga_entry(unsigned char uc, uint8_t color) {
+uint16_t Terminal::vgaEntry(unsigned char uc, uint8_t color) {
     return (uint16_t) uc | (uint16_t) color << 8;
 }
 
 void Terminal::initialize() {
     terminal_row = 0;
     terminal_column = 0;
-    terminal_color = combine_colors(Colors::WHITE, Colors::BLACK);
+    terminal_color = combineColors(Colors::WHITE, Colors::BLACK);
     terminal_buffer = (uint16_t*) 0xB8000;
 
     for (size_t y = 0; y < VGA::height; y++) {
         for (size_t x = 0; x < VGA::width; x++) {
             const size_t index = y * VGA::width + x;
-            terminal_buffer[index] = vga_entry(' ', terminal_color);
+            terminal_buffer[index] = vgaEntry(' ', terminal_color);
         }
     }
 }
@@ -39,7 +39,7 @@ void Terminal::setColor(uint8_t color) {
 
 void Terminal::putEntryAt(char c, uint8_t color, size_t x, size_t y) {
     const size_t index = y * VGA::width + x;
-    terminal_buffer[index] = vga_entry(c, color);
+    terminal_buffer[index] = vgaEntry(c, color);
 }
 
 void Terminal::putChar(char c) {
@@ -58,5 +58,5 @@ void Terminal::writeWithLength(const char* data, size_t size) {
 }
 
 void Terminal::write(const char* data) {
-    writeWithLength(data, String::strlen(data));
+    writeWithLength(data, strlen(data));
 }

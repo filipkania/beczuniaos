@@ -6,7 +6,7 @@ LD = i386-elf-ld
 AS = nasm
 QEMU = qemu-system-x86_64 -hda build/beczuniaos-latest-build.iso
 
-CCFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -m32 -nostartfiles -nostdlib -I$(shell pwd)/kernel
+CCFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -m32 -nostartfiles -nostdlib -I$(shell pwd)/kernel/include
 LDFLAGS = -T boot/linker.ld -melf_i386
 ASFLAGS = -f elf
 
