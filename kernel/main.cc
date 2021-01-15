@@ -1,9 +1,9 @@
 #include <terminal.h>
 
 extern "C" int main() {
+	// Terminal::initialize();
+	Terminal::write("abcdef");
 
-	Terminal::initialize();
-	Terminal::setColor(Terminal::combineColors(Terminal::Colors::CYAN, Terminal::Colors::BLACK));
-	Terminal::write("ABCDEF");
-    return 0;
+	while(1) {};
+	return 0;
 }
