@@ -1,9 +1,14 @@
 #include <terminal.h>
 
 void Terminal::clear() {
-    for(size_t row = 0; row < Terminal::size::width; row++) {
-        for(size_t col = 0; col < Terminal::size::height; col++) {
-            framebuffer[row * col * 2] = ' ';
+    for (size_t y = 0; y < size::height; y++) {
+        for (size_t x = 0; x < size::width; x++) {
+            size_t i = (y * size::width + x) * 2;
+            framebuffer[i] = ' ';
+            framebuffer[i + 1] = combine_colors(Colors::WHITE, Colors::BLACK);
         }
     }
+
+    currentColumn = 0;
+    currentRow = 0;
 }

@@ -2,6 +2,7 @@
 
 extern "C" int main() {
     Terminal::clear();
-    Terminal::write("test12345");
+    Terminal::write("test\n1234");
+
     return 0;
 }
