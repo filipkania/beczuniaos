@@ -1,9 +1,7 @@
 #include <terminal.h>
 
 extern "C" int main() {
-	// Terminal::initialize();
-	Terminal::write("abcdef");
-
-	while(1) {};
-	return 0;
+    Terminal::clear();
+    Terminal::write("test12345");
+    return 0;
 }

@@ -1,41 +1,39 @@
-FILES = $(wildcard **/*.s)
-OBJECTS = $(FILES:.s=.o)
+AS = i686-elf-as
+CC = i686-elf-g++
 
-CC = i386-elf-gcc
-LD = i386-elf-ld
-AS = nasm
-QEMU = qemu-system-x86_64 -hda build/beczuniaos-latest-build.iso
+CCFLAGS = -std=c++11 -ffreestanding -O2 -Wall -Wextra
 
-CCFLAGS = -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -m32 -nostartfiles -nostdlib -I$(shell pwd)/kernel/include
-LDFLAGS = -T boot/linker.ld -melf_i386
-ASFLAGS = -f elf
+CC_SOURCES := $(shell find . -type f -name "*.cc")
+ASM_SOURCES := $(shell find . -type f -name "*.s")
 
+OBJ = ${CC_SOURCES:.cc=.o} ${ASM_SOURCES:.s=.o}
 
-all: clean build_dir compile $(OBJECTS) link check_multiboot grub run_qemu
+all:
+	${MAKE} build || ${MAKE} prepare
+	${MAKE} clear_objects
 
-build_dir: 
-	echo $(FILES)
-	mkdir -p build/boot/grub && \
-	mkdir -p build/tmp
+build: prepare grub
 
-link:
-	$(LD) $(LDFLAGS) $(wildcard build/tmp/*.o) -o build/boot/kernel.bin
+prepare:
+	rm -rf build/
+	mkdir -p build/boot/grub
+	cp boot/grub/* build/boot/grub
 
-check_multiboot:
-	grub-file --is-x86-multiboot build/boot/kernel.bin
-
-compile:
-	$(CC) $(CCFLAGS) $(shell find . -type f -name "*.cc") -o build/tmp/kernel.o
+%.o: %.cc
+	${CC} $(CCFLAGS) -c $< -o $@ -Ikernel/include
 
 %.o: %.s
-	$(AS) $(ASFLAGS) $< -o build/tmp/$(notdir $@)
+	${AS} $< -o $@
 
-grub: 
-	cp boot/grub/* build/boot/grub && \
-	grub-mkrescue -v -o ./build/beczuniaos-latest-build.iso ./build
+kernel.bin: ${OBJ}
+	${CC} -T boot/linker.ld -o build/boot/kernel.bin -ffreestanding -O2 -nostdlib $^ -Ikernel/include
 
-clean:
-	rm -rf build/
+check-multiboot: kernel.bin
+	grub-file --is-x86-multiboot build/boot/kernel.bin
 
-run_qemu:
-	$(QEMU)
+grub: check-multiboot
+	grub-mkrescue -o build/beczuniaos-latest-build.iso build/
+
+
+clear_objects:
+	rm -rf $(OBJ)
