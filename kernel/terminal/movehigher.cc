@@ -13,7 +13,7 @@ void Terminal::move_higher() {
     for (size_t x = 0; x < size::width; x++) {
         size_t d = ((size::height - 1) * size::width + x) * 2;
         framebuffer[d] = ' ';
-        framebuffer[d + 1] = 0x41;
+        framebuffer[d + 1] = combine_colors(Colors::WHITE, Colors::BLACK);
     }
 
     lastColumn = 0;

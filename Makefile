@@ -36,3 +36,6 @@ grub: check-multiboot
 
 clear_objects:
 	rm -rf $(OBJ)
+
+clean: clear_objects
+	rm -rf build/

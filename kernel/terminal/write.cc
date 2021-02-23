@@ -8,8 +8,10 @@ void Terminal::write(const char *str) {
 
         if (lastColumn == size::width) {
             lastColumn = 0;
-            if (lastRow != size::height - 1)
+
+            if (lastRow != size::height - 1) {
                 lastRow += 1;
+            }
         }
 
         if (str[i] != '\n') {
