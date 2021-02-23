@@ -5,8 +5,10 @@ extern "C" int main() {
     Terminal::clear();
 
     Terminal::write("test", Terminal::Colors::CYAN, Terminal::Colors::DARK_GREY);
+    char a[5];
+    itoa(-41, a);
 
-    Terminal::write((memcmp("test", "tset", 4) == 0) ? "y" : "n");
+    Terminal::write(a);
 
     return 0;
 }
