@@ -6,10 +6,8 @@ extern "C" int main() {
 
     Terminal::write("test", Terminal::Colors::CYAN, Terminal::Colors::DARK_GREY);
 
-    char test[] = "abcdef";
     char poc[10];
-
-    memcpy(poc, test, strlen(test));
+    memset(poc, (int) "12345", 5);
 
     Terminal::write(poc);
 
