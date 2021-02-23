@@ -1,6 +1,9 @@
 #include <terminal.h>
 
 void Terminal::move_higher() {
+    if (lastRow != Terminal::size::height)
+        return;
+
     for (size_t y = 0; y < size::height - 1; y++) {
         for (size_t x = 0; x < size::width; x++) {
             size_t d = (y * size::width + x) * 2, c = ((y + 1) * size::width + x) * 2;

@@ -28,12 +28,12 @@ namespace Terminal {
         static const size_t height = 25;
     };
 
-    static size_t lastColumn = 0;
-    static size_t lastRow = 0;
+    static unsigned int lastRow = 0;
+    static unsigned int lastColumn = 0;
 
     static auto framebuffer = (char *) 0xB8000;
 
-    void write(const char *str);
+    void write(const char *str, Colors text_color = Colors::WHITE, Colors background_color = Colors::BLACK);
 
     void clear();
 

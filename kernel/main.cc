@@ -4,9 +4,14 @@
 extern "C" int main() {
     Terminal::clear();
 
-    char test[] = "abcdef";
-    strcat(test, "\n12345");
+    Terminal::write("test", Terminal::Colors::CYAN, Terminal::Colors::DARK_GREY);
 
-    Terminal::write(test);
+    char test[] = "abcdef";
+    char poc[10];
+
+    memcpy(poc, test, strlen(test));
+
+    Terminal::write(poc);
+
     return 0;
 }
