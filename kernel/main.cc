@@ -6,10 +6,7 @@ extern "C" int main() {
 
     Terminal::write("test", Terminal::Colors::CYAN, Terminal::Colors::DARK_GREY);
 
-    char poc[10];
-    memset(poc, (int) "12345", 5);
-
-    Terminal::write(poc);
+    Terminal::write((memcmp("test", "tset", 4) == 0) ? "y" : "n");
 
     return 0;
 }
