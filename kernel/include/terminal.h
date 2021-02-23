@@ -28,14 +28,16 @@ namespace Terminal {
         static const size_t height = 25;
     };
 
-    static size_t currentColumn = 0;
-    static size_t currentRow = 0;
+    static size_t lastColumn = 0;
+    static size_t lastRow = 0;
 
     static auto framebuffer = (char *) 0xB8000;
 
     void write(const char *str);
 
     void clear();
+
+    void move_higher();
 
     uint8_t combine_colors(enum Terminal::Colors foreground, enum Terminal::Colors background);
 

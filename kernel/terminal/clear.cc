@@ -9,6 +9,6 @@ void Terminal::clear() {
         }
     }
 
-    currentColumn = 0;
-    currentRow = 0;
+    lastColumn = 0;
+    lastRow = 0;
 }

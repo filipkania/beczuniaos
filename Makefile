@@ -1,7 +1,7 @@
 AS = i686-elf-as
 CC = i686-elf-g++
 
-CCFLAGS = -std=c++11 -ffreestanding -O2 -Wall -Wextra
+CCFLAGS = -std=c++2a -ffreestanding -O2 -Wall -Wextra -Wno-unused-variable
 
 CC_SOURCES := $(shell find . -type f -name "*.cc")
 ASM_SOURCES := $(shell find . -type f -name "*.s")
@@ -10,7 +10,6 @@ OBJ = ${CC_SOURCES:.cc=.o} ${ASM_SOURCES:.s=.o}
 
 all:
 	${MAKE} build || ${MAKE} prepare
-	${MAKE} clear_objects
 
 build: prepare grub
 
