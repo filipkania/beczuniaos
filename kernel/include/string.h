@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include <stdarg.h>
 
 size_t strlen(const char *str);
 
@@ -17,3 +18,5 @@ void *memmove(const void *a, const void *b, size_t size);
 char *itoa(int value, char *str);
 
 char *reverse_string(char *str);
+
+char *formatstr(const char *format, ...);
