@@ -5,11 +5,7 @@
 extern "C" int main() {
     Terminal::clear();
 
-    Terminal::write("test", Terminal::Colors::CYAN, Terminal::Colors::DARK_GREY);
-    char a[5];
-    char b[] = "test";
-    memmove(a, b, 4);
-    Terminal::write(a);
+    ASSERT(1 == 0);
 
     return 0;
 }
