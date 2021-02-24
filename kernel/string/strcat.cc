@@ -1,13 +1,14 @@
 #include <string.h>
 
-void strcat(char *dst, const char *src) {
+int strcat(char *dst, const char *src) {
     size_t dst_length = strlen(dst);
-    int end_addr = dst_length + strlen(src);
+    size_t src_length = strlen(src);
+    int end_addr = dst_length + src_length;
 
     for (size_t i = 0; i < strlen(src); i++) {
         dst[dst_length + i] = src[i];
     }
     dst[end_addr] = '\0';
 
-    return;
+    return src_length;
 }
