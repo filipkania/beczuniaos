@@ -7,8 +7,8 @@ extern "C" int main() {
 
     Terminal::write("test", Terminal::Colors::CYAN, Terminal::Colors::DARK_GREY);
     char a[5];
-    itoa(-41, a);
-    ASSERT_NOT_REACHED();
+    char b[] = "test";
+    memmove(a, b, 4);
     Terminal::write(a);
 
     return 0;
