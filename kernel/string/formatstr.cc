@@ -19,7 +19,7 @@ char *formatstr(const char *format, ...) {
             if (arg != (const char *) nullptr) {
                 location += strcat(str, arg);
             } else
-                location += strcat(str, "nullptr");
+                location += strcat(str, "{}");
         } else if (format[i - 1] == '{' && format[i] == '}')
             continue;
         else {
