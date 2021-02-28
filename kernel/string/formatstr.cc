@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 char *formatstr(const char *format, ...) {
     va_list params;
     va_start(params, format);
@@ -8,9 +9,12 @@ char *formatstr(const char *format, ...) {
     static char str[512];
     size_t location = 0;
 
+    for (size_t i = 0; i < 512; i++)
+        str[i] = '\0';
+
     for (size_t i = 0; i < strlen(format); i++) {
         if (format[i] == '{' && format[i + 1] == '}') {
-            const char *arg = va_arg(params, char * );
+            const char *arg = va_arg(params, char *);
 
             if (arg != (const char *) nullptr) {
                 location += strcat(str, arg);
