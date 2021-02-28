@@ -1,15 +1,17 @@
 AS = i686-elf-as
 CC = i686-elf-g++
+QEMU = qemu-system-x86_64
 
 CCFLAGS = -std=c++2a -ffreestanding -O2 -Wall -Wextra -Wno-unused-variable
+QEMUFLAGS = -s -hda build/beczuniaos-latest-build.iso
 
 CC_SOURCES := $(shell find . -type f -name "*.cc")
 ASM_SOURCES := $(shell find . -type f -name "*.s")
 
 OBJ = ${CC_SOURCES:.cc=.o} ${ASM_SOURCES:.s=.o}
 
-all:
-	${MAKE} build || ${MAKE} prepare
+run:
+	${MAKE} build && ${MAKE} qemu
 
 build: prepare grub
 
@@ -39,3 +41,7 @@ clear_objects:
 
 clean: clear_objects
 	rm -rf build/
+
+
+qemu:
+	$(QEMU) $(QEMUFLAGS)
