@@ -28,8 +28,8 @@ namespace Terminal {
         static const size_t height = 25;
     };
 
-    static unsigned int lastRow = 0;
-    static unsigned int lastColumn = 0;
+    extern size_t lastRow;
+    extern size_t lastColumn;
 
     static auto framebuffer = (char *) 0xB8000;
 
