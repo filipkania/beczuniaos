@@ -10,6 +10,9 @@ ASM_SOURCES := $(shell find . -type f -name "*.s")
 
 OBJ = ${CC_SOURCES:.cc=.o} ${ASM_SOURCES:.s=.o}
 
+all:
+	${MAKE} build
+
 run:
 	${MAKE} build && ${MAKE} qemu
 
