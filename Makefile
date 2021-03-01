@@ -2,8 +2,8 @@ AS = i686-elf-as
 CC = i686-elf-g++
 QEMU = qemu-system-x86_64
 
-CCFLAGS = -std=c++2a -ffreestanding -O2 -Wall -Wextra -Wno-unused-variable
-QEMUFLAGS = -s -hda build/beczuniaos-latest-build.iso
+CCFLAGS = -std=c++2a -ffreestanding -O2 -Wall -Wextra -Wno-unused-variable -Ikernel/include
+QEMUFLAGS = -s -hda build/beczuniaos-latest-build.iso -serial stdio
 
 CC_SOURCES := $(shell find . -type f -name "*.cc")
 ASM_SOURCES := $(shell find . -type f -name "*.s")
@@ -24,13 +24,13 @@ prepare:
 	cp boot/grub/* build/boot/grub
 
 %.o: %.cc
-	${CC} $(CCFLAGS) -c $< -o $@ -Ikernel/include
+	${CC} $(CCFLAGS) -c $< -o $@
 
 %.o: %.s
 	${AS} $< -o $@
 
 kernel.bin: ${OBJ}
-	${CC} -T boot/linker.ld -o build/boot/kernel.bin -ffreestanding -O2 -nostdlib $^ -Ikernel/include
+	${CC} -T boot/linker.ld -o build/boot/kernel.bin -ffreestanding -O2 -nostdlib $^
 
 check-multiboot: kernel.bin
 	grub-file --is-x86-multiboot build/boot/kernel.bin
