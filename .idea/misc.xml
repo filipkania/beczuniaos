@@ -3,7 +3,6 @@
   <component name="CidrRootsConfiguration">
     <sourceRoots>
       <file path="$PROJECT_DIR$/kernel" />
-      <file path="$PROJECT_DIR$/kernel/include" />
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/build" />
@@ -23,4 +22,7 @@
     </option>
   </component>
   <component name="MakefileWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/kernel/serial/a.cc" />
+  </component>
 </project>
