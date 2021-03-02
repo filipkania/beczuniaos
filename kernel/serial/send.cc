@@ -7,7 +7,8 @@ void Serial::send(const char *str) {
         return;
 
     for (size_t i = 0; i < strlen(str); i++) {
-        outb(COM_PORT, str[i]);
+        if (is_transmit_empty())
+            outb(COM_PORT, str[i]);
     }
 
     return;
