@@ -8,8 +8,9 @@ extern "C" int main() {
 
     if (Serial::initialize())
         Serial::READY = 1;
-    int a = 142;
-    Serial::send(formatstr("value={}", itoa(a)));
+
+    dbgln("test {}", "ABCDEF");
+    dbgln("test {}", "ABCDEF");
 
     ASSERT_NOT_REACHED();
 

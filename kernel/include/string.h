@@ -2,6 +2,9 @@
 
 #include <stddef.h>
 #include <stdarg.h>
+#include <stdlib.h>
+
+#define dbgln(format, args...) __internal__debug(__FILE__, __LINE__, format, ##args)
 
 size_t strlen(const char *str);
 
@@ -20,3 +23,7 @@ char *itoa(int value);
 char *reverse_string(char *str);
 
 char *formatstr(const char *format, ...);
+
+char *__internal__format(const char *format, va_list params);
+
+void __internal__debug(const char *file, int line, const char *format, ...);
