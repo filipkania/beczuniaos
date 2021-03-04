@@ -9,11 +9,14 @@ void __internal__debug(const char *file, int line, const char *format, ...) {
     va_list params;
     va_start(params, format);
 
+    char line_str[5];
+    itoa(line, line_str);
+
     auto prefix = formatstr(
             "{}[{}:{}]{} ",
             Serial::ANSI_Colors::green,
             file,
-            itoa(line),
+            line_str,
             Serial::ANSI_Colors::reset
     );
 

@@ -8,9 +8,10 @@ extern "C" int main() {
 
     if (Serial::initialize())
         Serial::READY = 1;
+    char str[5];
+    itoa(5, str);
 
-    dbgln("test {}", "ABCDEF");
-    dbgln("test {}", "ABCDEF");
+    dbgln("test {}", str);
 
     ASSERT_NOT_REACHED();
 

@@ -18,7 +18,7 @@ int memcmp(const void *a, const void *b, size_t size);
 
 void *memmove(const void *a, const void *b, size_t size);
 
-char *itoa(int value);
+char *itoa(int value, char *str);
 
 char *reverse_string(char *str);
 

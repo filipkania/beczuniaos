@@ -1,8 +1,7 @@
 #include <string.h>
 
-char *itoa(int value) {
+char *itoa(int value, char *str) {
     int i = 0;
-    static char str[128];
     bool isNegative = (value < 0);
 
     if (isNegative)
