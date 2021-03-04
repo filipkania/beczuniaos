@@ -7,8 +7,8 @@ namespace Serial {
     extern int READY;
 
     namespace ANSI_Colors {
-        static const char *red = "\u001b[32m";
         static const char *black = "\u001b[30;1m";
+        static const char *red = "\u001b[31;1m";
         static const char *green = "\u001b[32;1m";
         static const char *yellow = "\u001b[33;1m";
         static const char *blue = "\u001b[34;1m";

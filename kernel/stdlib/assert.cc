@@ -16,5 +16,7 @@ void __internal_assert(const char *msg, const char *file, int line, const char *
 
     Terminal::write(str);
 
+    errln("Assertion {} failed at {}:{}", msg, file, line_str);
+
     __ABORT();
 }
