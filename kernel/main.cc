@@ -13,7 +13,13 @@ extern "C" int main() {
 
     dbgln("test {}", str);
 
-    ASSERT_NOT_REACHED();
+    for (int i = 0; i < 30; i++) {
+        char asdf[5];
+
+        itoa(i, asdf);
+
+        Terminal::write(formatstr("Testing: doom now works :sunglasses: {}\n", asdf));
+    }
 
     return 0;
 }
